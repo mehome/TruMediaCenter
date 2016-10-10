@@ -1,0 +1,40 @@
+SRCS  = WinSystemEGL.cpp
+SRCS += EGLNativeTypeAmlogic.cpp
+
+ifeq (@USE_ANDROID@,1)
+SRCS += EGLNativeTypeAndroid.cpp
+SRCS += EGLNativeTypeAmlAndroid.cpp
+SRCS += EGLNativeTypeRKAndroid.cpp
+endif
+
+ifeq (@USE_MMAL@,1)
+SRCS += EGLNativeTypeRaspberryPI.cpp
+endif
+
+ifeq (@USE_IMXVPU@,1)
+SRCS += EGLNativeTypeIMX.cpp
+endif
+SRCS += EGLWrapper.cpp
+
+# Wayland specific detail
+ifeq (@USE_WAYLAND@,1)
+SRCS += EGLNativeTypeWayland.cpp
+SRCS += wayland/Callback.cpp
+SRCS += wayland/Compositor.cpp
+SRCS += wayland/Display.cpp
+SRCS += wayland/OpenGLSurface.cpp
+SRCS += wayland/Output.cpp
+SRCS += wayland/Region.cpp
+SRCS += wayland/Registry.cpp
+SRCS += wayland/Shell.cpp
+SRCS += wayland/ShellSurface.cpp
+SRCS += wayland/Surface.cpp
+SRCS += wayland/WaylandLibraries.cpp
+SRCS += wayland/XBMCConnection.cpp
+SRCS += wayland/XBMCSurface.cpp
+endif
+
+LIB   = windowing_egl.a
+
+include ../../../Makefile.include
+-include $(patsubst %.cpp,%.P,$(patsubst %.c,%.P,$(SRCS)))

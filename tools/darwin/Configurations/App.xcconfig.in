@@ -1,0 +1,48 @@
+//
+//      Copyright (C) 2012-2013 Team XBMC
+//      http://xbmc.org
+//
+//  This Program is free software; you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation; either version 2, or (at your option)
+//  any later version.
+//
+//  This Program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with XBMC; see the file COPYING.  If not, see
+//  <http://www.gnu.org/licenses/>.
+//
+//
+
+// Settings here will OVERRIDE those in project panel unless inherited
+
+XBMC_DEPENDS_ROOT = @DEPENDS_ROOT_FOR_XCODE@
+
+// This setting is for devs that do not understand the difference
+// between #include <some.h> vs #include "some.h".
+// <> is for system includes, "" is for user includes.
+// Do not mix them or the include gods get angry.
+ALWAYS_SEARCH_USER_PATHS = NO
+
+// This is #include "some.h"
+USER_HEADER_SEARCH_PATHS = $(inherited) xbmc xbmc/cores/dvdplayer lib/addons/library.xbmc.addon lib
+
+// This is #include <some.h>
+// Normally $XBMC_DEPENDS/include is all you need but some libs
+// incude others using wacky paths, include them here to fix that.
+HEADER_SEARCH_PATHS = $(inherited) $XBMC_DEPENDS/include $XBMC_DEPENDS/include/libcec $XBMC_DEPENDS/include/mysql $XBMC_DEPENDS/include/freetype2 $(XBMC_DEPENDS)/include/libxml2
+
+LIBRARY_SEARCH_PATHS = $(inherited) $(XBMC_DEPENDS)/lib $(XBMC_DEPENDS)/lib/mysql
+
+// These are the libs we need to link, xcode will supply any defaults
+APP_SYSTEM_LIBS = -lz -lm -liconv -lresolv -lbz2
+APP_FFMPEG_LIBS = -lavfilter -lavcodec -lavformat -lpostproc -lavutil -lswresample -lswscale
+// -Wl,-all_load is a hammer, todo: remove it
+APP_OTHER_LDFLAGS_COMMON = $(APP_SYSTEM_LIBS) -lintl -lexpat -lssl -lgpg-error -lssh -llzo2 -lpcre -lpcrecpp -lfribidi -lfreetype -lfontconfig -lsqlite3 -ltinyxml -lmicrohttpd -lyajl -ljpeg -lpng -lgif -lcrypto -lgcrypt -ldcadec -ltag -lmysqlclient -lxml2 -lxslt -lnettle -lgmp -lhogweed -ltasn1 -lgnutls -lsquish -lcrossguid -lulxmlrpcpp $(APP_FFMPEG_LIBS)
+
+CLANG_CXX_LANGUAGE_STANDARD = c++0x
+CLANG_CXX_LIBRARY = libc++

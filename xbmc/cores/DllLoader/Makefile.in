@@ -1,0 +1,11 @@
+CFLAGS   += -DAPI_DEBUG
+CXXFLAGS += -DAPI_DEBUG
+
+SRCS  = DllLoaderContainer.cpp
+SRCS += LibraryLoader.cpp
+SRCS += SoLoader.cpp
+
+LIB   = dllloader.a
+
+include @abs_top_srcdir@/Makefile.include
+-include $(patsubst %.cpp,%.P,$(patsubst %.c,%.P,$(SRCS)))

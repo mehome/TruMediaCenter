@@ -1,0 +1,53 @@
+SRCS  = Application.cpp
+SRCS += ApplicationPlayer.cpp
+SRCS += AppParamParser.cpp
+SRCS += Autorun.cpp
+SRCS += AutoSwitch.cpp
+SRCS += BackgroundInfoLoader.cpp
+SRCS += ContextMenuItem.cpp
+SRCS += ContextMenuManager.cpp
+SRCS += CompileInfo.cpp
+SRCS += CueDocument.cpp
+SRCS += DatabaseManager.cpp
+SRCS += DbUrl.cpp
+SRCS += DynamicDll.cpp
+SRCS += FileItem.cpp
+SRCS += FileItemListModification.cpp
+SRCS += GitRevision
+SRCS += GUIInfoManager.cpp
+SRCS += GUILargeTextureManager.cpp
+SRCS += GUIPassword.cpp
+SRCS += LangInfo.cpp
+SRCS += MediaSource.cpp
+SRCS += NfoFile.cpp
+SRCS += PasswordManager.cpp
+SRCS += PlayListPlayer.cpp
+SRCS += PartyModeManager.cpp
+SRCS += SectionLoader.cpp
+SRCS += SystemGlobals.cpp
+SRCS += TextureCache.cpp
+SRCS += TextureCacheJob.cpp
+SRCS += TextureDatabase.cpp
+SRCS += ThumbLoader.cpp
+SRCS += ThumbnailCache.cpp
+SRCS += URL.cpp
+SRCS += Util.cpp
+SRCS += XBApplicationEx.cpp
+SRCS += XBDateTime.cpp
+
+LIB   = xbmc.a
+
+DISTCLEAN_FILES = DllPaths_generated.h DllPaths_generated_android.h CompileInfo.cpp
+
+.PHONY: .GitRevision
+
+all: $(SRCS) $(LIB)
+
+CompileInfo.cpp: ../version.txt CompileInfo.cpp.in GitRevision
+	$(MAKE) -f gen-compileinfo.mk
+
+GitRevision:
+	$(MAKE) -f gen-compileinfo.mk GitRevision
+
+include @abs_top_srcdir@/Makefile.include
+-include $(patsubst %.cpp,%.P,$(patsubst %.c,%.P,$(SRCS)))

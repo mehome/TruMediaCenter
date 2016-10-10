@@ -1,0 +1,26 @@
+SRCS  = MCRuntimeLibStartupLogger.cpp
+SRCS += MCRuntimeLib.cpp
+SRCS += MCRuntimeLibContext.cpp
+
+ifeq ($(findstring osx,@ARCH@), osx)
+SRCS += darwin/AutoPool.mm
+SRCS += darwin/DarwinUtils.mm
+SRCS += darwin/DictionaryUtils.mm
+SRCS += darwin/OSXGNUReplacements.c
+SRCS += darwin/osx/OSXTextInputResponder.mm
+SRCS += darwin/osx/smc.c
+SRCS += darwin/osx/XBMCHelper.m
+SRCS += darwin/osx/CocoaInterface.mm
+SRCS += darwin/osx/OSXGLView.mm
+SRCS += darwin/osx/OSXGLWindow.mm
+SRCS += darwin/osx/XBMCApplication.mm
+
+else
+SRCS += posix/main.cpp
+
+endif
+
+LIB   = main.a
+
+include @abs_top_srcdir@/Makefile.include
+-include $(patsubst %.mm,%.P,$(patsubst %.cpp,%.P,$(patsubst %.c,%.P,$(SRCS))))

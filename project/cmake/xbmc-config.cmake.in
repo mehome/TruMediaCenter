@@ -1,0 +1,4 @@
+message(WARNING "find_package(xbmc) has been deprecated, please use find_package(mrmc)")
+
+find_package(mrmc REQUIRED)
+set(XBMC_INCLUDE_DIR ${MRMC_INCLUDE_DIR})
